@@ -1,7 +1,7 @@
 import './App.css';
 
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-
+import { Toaster } from 'react-hot-toast';
 import Login from './pages/Login';
 import Home from './pages/Home';
 import PrivateRoute from './components/PrivateRoute';
@@ -11,8 +11,10 @@ const App = () => {
     <Router>
       <main>
         <PrivateRoute exact path="/" component={Home} />
+        <PrivateRoute exact path="/:room" component={Home} />
         <Route exact path="/login" component={Login} />
       </main>
+      <Toaster position="top-right" />
     </Router>
   );
 };

@@ -1,28 +1,18 @@
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { signOut } from '@firebase/auth';
-import { auth } from '../Firebase';
+import Sidepanel from '../components/Sidepanel';
+import ChatSection from '../components/ChatSection';
+import Navbar from '../components/Navbar';
 
 const Home = () => {
-  const [user] = useAuthState(auth);
-  const logOut = () => {
-    signOut(auth)
-      .then(() => {
-        console.log('signout successful');
-      })
-      .catch((err) => {
-        throw new Error(err.message);
-      });
-  };
-
   return (
-    <div className="min-h-screen flex items-center justify-center flex-col gap-7">
-      <h1 className="text-xl">welcome {user.displayName}</h1>
-      <button
-        onClick={logOut}
-        className="bg-green-400 rounded px-4 py-1 text-white"
-      >
-        Logout
-      </button>
+    <div
+      className="min-h-screen flex flex-col text-white"
+      style={{ backgroundColor: '#161223' }}
+    >
+      <Navbar />
+      <div className="flex-1 grid grid-cols-10">
+        <Sidepanel className="col-span-3" />
+        <ChatSection className="col-span-7" />
+      </div>
     </div>
   );
 };
