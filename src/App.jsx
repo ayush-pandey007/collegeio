@@ -11,7 +11,7 @@ const App = () => {
     <Router>
       <main>
         <PrivateRoute exact path="/" component={Home} />
-        <PrivateRoute exact path="/:room" component={Home} />
+        <PrivateRoute exact path="/:id" component={Home} />
         <Route exact path="/login" component={Login} />
       </main>
       <Toaster position="top-right" />

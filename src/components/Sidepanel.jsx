@@ -1,34 +1,56 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import { PlusIcon } from '@heroicons/react/outline';
 import Modal from './Modal';
-import { db } from '../Firebase';
 import SidebarOptions from './SidebarOptions';
-import { collection, addDoc, getDocs } from 'firebase/firestore';
+import getRooms from '../services/getRooms';
+import addRoom from '../services/addRoom';
+import toast from 'react-hot-toast';
+import { useParams } from 'react-router-dom';
 
 const SidePanel = ({ className }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [userInput, setuserInput] = useState('');
-  const [channel, setChannel] = useState([]);
-  let temp = [];
+  const [rooms, setRooms] = useState([]);
 
-  const createChannel = async () => {
-    setModalOpen(false);
-    if (userInput.length !== 0) {
-      addDoc(collection(db, 'rooms'), {
-        name: userInput,
-      });
+  const { id } = useParams();
+
+  const refetch = async () => {
+    try {
+      const data = await getRooms();
+      setRooms(data);
+    } catch (e) {
+      console.log(e.message);
     }
-    const querySnapshot = await getDocs(collection(db, 'rooms'));
-    querySnapshot.forEach((doc) => {
-      temp = [...temp, doc.data().name];
+  };
+
+  useEffect(() => {
+    try {
+      const fetchRooms = async () => {
+        const data = await getRooms();
+        setRooms(data);
+      };
+      fetchRooms();
+    } catch (e) {
+      console.log(e.message);
+    }
+  }, []);
+
+  const createRoom = async (roomName) => {
+    toast.promise(addRoom({ name: roomName }), {
+      success: (id) => {
+        setModalOpen(false);
+        refetch();
+        return 'Room Created 🔥';
+      },
+      loading: 'Creating room',
+      error: 'Something went wrong',
     });
-    setChannel(temp);
   };
 
   return (
     <div
-      className={clsx('flex flex-col items-center', className)}
+      className={clsx('flex flex-col items-center px-3', className)}
       style={{ backgroundColor: '#241B38' }}
     >
       <button
@@ -44,24 +66,41 @@ const SidePanel = ({ className }) => {
         className="bg-gray-900 p-4 rounded-md text-white"
       >
         <div className="flex flex-col">
-          <h1>Enter Channel Name</h1>
+          <h1 className="text-sm text-gray-200">Enter Channel Name</h1>
           <input
-            className="text-black mt-2"
+            className="px-2 py-1 outline-none rounded bg-gray-800 mt-2"
+            placeholder="name"
             type="text"
             onChange={(e) => setuserInput(e.target.value)}
           />
-          <button
-            className="p-2 bg-blue-600 rounded-md w-24 mt-4"
-            onClick={createChannel}
-          >
-            create
-          </button>
+          <div className="w-full mt-4 flex gap-3 justify-end">
+            <button
+              className="block py-1 px-2 text-base bg-blue-600 rounded-md"
+              onClick={() => createRoom(userInput)}
+            >
+              create
+            </button>
+            <button
+              className="block text-base py-1 px-2 bg-green-400 rounded-md"
+              onClick={() => setModalOpen(false)}
+            >
+              close
+            </button>
+          </div>
         </div>
       </Modal>
 
-      {channel.map((data) => (
-        <SidebarOptions key={data.id} title={data} />
-      ))}
+      <section className="flex flex-col gap-3 mt-3 w-full">
+        {rooms &&
+          rooms.map((data) => (
+            <SidebarOptions
+              key={data.id}
+              isActive={data.id === id}
+              id={data.id}
+              title={data.name}
+            />
+          ))}
+      </section>
     </div>
   );
 };

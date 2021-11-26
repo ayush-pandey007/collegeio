@@ -1,5 +1,5 @@
 import React from 'react';
-import { auth, provider } from '../Firebase';
+import { auth, provider } from '../firebase';
 import { signInWithPopup } from 'firebase/auth';
 
 import { useHistory } from 'react-router-dom';
