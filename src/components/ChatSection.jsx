@@ -95,6 +95,7 @@ const ChatSection = ({ className }) => {
                   right: '30px',
                   bottom: '60px',
                   boxShadow: 'none',
+                  zIndex: '100',
                 }}
                 onEmojiClick={onEmojiSelect}
               />

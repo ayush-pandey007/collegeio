@@ -4,19 +4,23 @@ import { DateTime } from 'luxon';
 
 const Message = ({ text, createdBy, createdAt, userImage }) => {
   const isToday = useMemo(() => {
-    return (
-      DateTime.fromSeconds(createdAt.seconds).toLocal === DateTime.now().toLocal
-    );
+    if (createdAt?.seconds) {
+      return (
+        DateTime.fromSeconds(createdAt?.seconds || 0).toLocal ===
+        DateTime.now().toLocal
+      );
+    }
+    return DateTime.now().toLocal;
   }, [DateTime.now().day]);
 
   const getDayTime = () => {
     if (isToday) {
-      return DateTime.fromSeconds(createdAt.seconds).toLocaleString(
+      return DateTime.fromSeconds(createdAt?.seconds || 0).toLocaleString(
         DateTime.TIME_SIMPLE
       );
     }
 
-    return DateTime.fromSeconds(createdAt.seconds).toLocaleString(
+    return DateTime.fromSeconds(createdAt?.seconds || 0).toLocaleString(
       DateTime.DATE_SHORT
     );
   };
