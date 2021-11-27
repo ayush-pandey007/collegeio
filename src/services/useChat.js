@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { db } from '../firebase';
 import { collection, query, onSnapshot, orderBy } from '@firebase/firestore';
 
-// fetch all chat of a room
+// RealTime Chats
 const useChat = (id) => {
   if (!id) return null;
   const [data, setData] = useState(null);

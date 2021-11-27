@@ -6,8 +6,8 @@ function SidebarOptions({ id, title, isActive }) {
     <>
       <Link
         className={clsx(
-          'text-white z-30 w-full rounded px-2 py-1 text-base bg-accent shadow-md transition-all',
-          { 'bg-gray-600 -mr-1': isActive }
+          'text-white z-30 w-full rounded px-2 py-1 text-base bg-gray-800 shadow-md transition-all hover:bg-purple-500',
+          { 'bg-purple-500 -mr-1': isActive }
         )}
         to={`/${id}`}
       >
