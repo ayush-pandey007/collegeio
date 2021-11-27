@@ -30,11 +30,13 @@ const SidePanel = ({ className }) => {
 
   return (
     <div
-      className={clsx('flex flex-col items-center max-h-full px-1', className)}
-      style={{ backgroundColor: '#241B38' }}
+      className={clsx(
+        'flex flex-col items-center max-h-full px-1 bg-trueGray-900 border-r-[1px] border-gray-700',
+        className
+      )}
     >
       <button
-        className="flex gap-4 items-center text-base bg-accent px-2 py-1 rounded-md mt-3"
+        className="flex gap-4 items-center text-base bg-purple-600 px-2 py-1 rounded-md mt-3 active:ring-2 hover:bg-purple-700"
         onClick={() => setModalOpen(true)}
       >
         <span>Create Channel</span>

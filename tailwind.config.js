@@ -8,6 +8,7 @@ module.exports = {
     extend: {
       colors: {
         gray: colors.gray,
+        trueGray: colors.trueGray,
         transparent: 'transparent',
         current: 'currentColor',
         accent: {

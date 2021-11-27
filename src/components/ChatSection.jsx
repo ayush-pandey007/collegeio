@@ -65,8 +65,7 @@ const ChatSection = ({ className }) => {
 
   return (
     <div
-      className={clsx('flex flex-col gap-3 max-h-full', className)}
-      style={{ backgroundColor: '#161223' }}
+      className={clsx('flex flex-col gap-3 max-h-full bg-gray-900', className)}
     >
       <section className="pt-4 px-3 flex flex-col gap-5 max-h-full overflow-auto scrollbar-thin scrollbar-thumb-gray-700 hover:scrollbar-thumb-gray-800">
         {chat.map((message) => (
@@ -79,7 +78,7 @@ const ChatSection = ({ className }) => {
           />
         ))}
       </section>
-      <section className="mb-4 bottom-4 left-0 right-0 px-3">
+      <section className="mb-4 bottom-4 left-0 right-0 px-3 mt-auto">
         <div className="w-full px-4 py-2 bg-gray-800 rounded-md flex gap-3 items-center shadow-md">
           <input
             type="text"
