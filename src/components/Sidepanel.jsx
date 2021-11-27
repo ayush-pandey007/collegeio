@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import { PlusIcon } from '@heroicons/react/outline';
 import Modal from './Modal';
 import SidebarOptions from './SidebarOptions';
-import getRooms from '../services/getRooms';
+import useRooms from '../services/useRooms';
 import addRoom from '../services/addRoom';
 import toast from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
@@ -11,36 +11,16 @@ import { useParams } from 'react-router-dom';
 const SidePanel = ({ className }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [userInput, setuserInput] = useState('');
-  const [rooms, setRooms] = useState([]);
 
   const { id } = useParams();
 
-  const refetch = async () => {
-    try {
-      const data = await getRooms();
-      setRooms(data);
-    } catch (e) {
-      console.log(e.message);
-    }
-  };
-
-  useEffect(() => {
-    try {
-      const fetchRooms = async () => {
-        const data = await getRooms();
-        setRooms(data);
-      };
-      fetchRooms();
-    } catch (e) {
-      console.log(e.message);
-    }
-  }, []);
+  const [rooms, refetchRooms] = useRooms();
 
   const createRoom = async (roomName) => {
     toast.promise(addRoom({ name: roomName }), {
       success: (id) => {
         setModalOpen(false);
-        refetch();
+        refetchRooms();
         return 'Room Created 🔥';
       },
       loading: 'Creating room',
