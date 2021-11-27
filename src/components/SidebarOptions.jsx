@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 
 function SidebarOptions({ id, title, isActive }) {
-  console.log(isActive);
   return (
     <>
       <Link

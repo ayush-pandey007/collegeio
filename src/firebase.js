@@ -2,6 +2,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 import { getFirestore, collection } from 'firebase/firestore';
+
 const firebaseConfig = {
   apiKey: 'AIzaSyCqpRbrgIYGgSrXZkrfv6vlq-Ls2tp9KT0',
   authDomain: 'collegeio-5a4b3.firebaseapp.com',
@@ -17,3 +18,4 @@ export const provider = new GoogleAuthProvider();
 export const db = getFirestore();
 
 export const roomdDB = collection(db, 'rooms');
+// export const useAppAuthState = useAuthState(auth);
