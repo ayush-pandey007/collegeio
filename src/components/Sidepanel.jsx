@@ -30,7 +30,7 @@ const SidePanel = ({ className }) => {
 
   return (
     <div
-      className={clsx('flex flex-col items-center px-3', className)}
+      className={clsx('flex flex-col items-center max-h-full px-1', className)}
       style={{ backgroundColor: '#241B38' }}
     >
       <button
@@ -70,7 +70,7 @@ const SidePanel = ({ className }) => {
         </div>
       </Modal>
 
-      <section className="flex flex-col gap-3 mt-3 w-full">
+      <section className="flex flex-col gap-3 pl-3 pr-4 mt-3 max-h-full w-full overflow-auto scrollbar-thin scrollbar-thumb-gray-700">
         {rooms &&
           rooms.map((data) => (
             <SidebarOptions

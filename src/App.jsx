@@ -9,7 +9,7 @@ import PrivateRoute from './components/PrivateRoute';
 const App = () => {
   return (
     <Router>
-      <main>
+      <main className="h-screen">
         <PrivateRoute exact path="/" component={Home} />
         <PrivateRoute exact path="/:id" component={Home} />
         <Route exact path="/login" component={Login} />

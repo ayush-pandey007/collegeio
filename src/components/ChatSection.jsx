@@ -65,10 +65,10 @@ const ChatSection = ({ className }) => {
 
   return (
     <div
-      className={clsx('relative flex flex-col gap-6 justify-end', className)}
+      className={clsx('flex flex-col gap-3 max-h-full', className)}
       style={{ backgroundColor: '#161223' }}
     >
-      <section className="px-3 flex flex-col gap-5">
+      <section className="pt-4 px-3 flex flex-col gap-5 max-h-full overflow-auto scrollbar-thin scrollbar-thumb-gray-700 hover:scrollbar-thumb-gray-800">
         {chat.map((message) => (
           <Message
             key={message?.id}
