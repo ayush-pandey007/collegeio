@@ -10,7 +10,7 @@ const Home = () => {
     >
       <Navbar />
       <div className="flex flex-1 min-h-full">
-        <Sidepanel className="w-[30%]" />
+        <Sidepanel />
         <ChatSection className="flex-1" />
       </div>
     </div>

@@ -13,6 +13,8 @@ import Message from './ChatSection/Message';
 
 import toast from 'react-hot-toast';
 import { auth } from '../firebase';
+import noTabSelect from '../assets/illustrations/no-tab.svg';
+import noMessage from '../assets/illustrations/no-message.svg';
 
 const ChatSection = ({ className }) => {
   const { id } = useParams();
@@ -38,8 +40,8 @@ const ChatSection = ({ className }) => {
     };
 
     try {
-      await sendMessage(id, msg);
       setMessageInput('');
+      await sendMessage(id, msg);
       emptyDivRef.current.scrollIntoView({ behavior: 'smooth' });
     } catch (e) {
       toast.error('something went wrong');
@@ -48,8 +50,11 @@ const ChatSection = ({ className }) => {
 
   if (!id) {
     return (
-      <div>
-        <h1>Select a Room to Talk</h1>
+      <div className="bg-gray-900 flex-1 flex items-center justify-center flex-col gap-8">
+        <img src={noTabSelect} alt="" className="max-w-xs" />
+        <h1 className="text-lg font-semibold text-purple-500">
+          Select a Room to Talk
+        </h1>
       </div>
     );
   }
@@ -58,7 +63,7 @@ const ChatSection = ({ className }) => {
     return (
       <div
         className={clsx(
-          'flex items-center justify-center w-full h-full',
+          'flex items-center justify-center w-full h-full flex-1',
           className
         )}
       >
@@ -71,18 +76,27 @@ const ChatSection = ({ className }) => {
     <div
       className={clsx('flex flex-col gap-3 max-h-full bg-gray-900', className)}
     >
-      <section className="pt-4 px-3 flex flex-col gap-5 max-h-full overflow-auto scrollbar-thin scrollbar-thumb-gray-700 hover:scrollbar-thumb-gray-800">
-        {chat.map((message) => (
-          <Message
-            key={message?.id}
-            text={message?.text}
-            createdAt={message?.created_at}
-            createdBy={message?.created_by}
-            userImage={message.user_img}
-          />
-        ))}
-        <div ref={emptyDivRef}></div>
-      </section>
+      {chat.length > 0 ? (
+        <section className="pt-4 px-3 flex flex-col gap-5 max-h-full overflow-auto scrollbar-thin scrollbar-thumb-gray-700 hover:scrollbar-thumb-gray-800">
+          {chat.map((message) => (
+            <Message
+              key={message?.id}
+              text={message?.text}
+              createdAt={message?.created_at}
+              createdBy={message?.created_by}
+              userImage={message.user_img}
+            />
+          ))}
+          <div ref={emptyDivRef}></div>
+        </section>
+      ) : (
+        <div className="flex items-center justify-center gap-8 flex-col flex-1">
+          <img src={noMessage} alt="no message to show" className="max-w-xs" />
+          <span className="text-lg font-semibold text-purple-500">
+            Start Your Conversation now!
+          </span>
+        </div>
+      )}
       <section className="mb-4 bottom-4 left-0 right-0 px-3 mt-auto">
         <div className="">
           <form

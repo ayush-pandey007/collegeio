@@ -34,6 +34,7 @@ const SidePanel = ({ className }) => {
         'flex flex-col items-center max-h-full px-1 bg-trueGray-900 border-r-[1px] border-gray-700',
         className
       )}
+      style={{ width: '30%' }}
     >
       <button
         className="flex gap-4 items-center text-base bg-purple-600 px-2 py-1 rounded-md mt-3 active:ring-2 hover:bg-purple-700"
