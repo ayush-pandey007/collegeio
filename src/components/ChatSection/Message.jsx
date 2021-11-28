@@ -33,7 +33,7 @@ const Message = ({ text, createdBy, createdAt, userImage }) => {
           <span className="text-purple-400 text-sm">{createdBy}</span>
           <span className="ml-4 text-gray-500 text-sm">{getDayTime()}</span>
         </div>
-        <span className="text-gray-300 text-base">{text}</span>
+        <span className="text-gray-300 text-base break-all">{text}</span>
       </div>
     </div>
   );

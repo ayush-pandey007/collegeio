@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import clsx from 'clsx';
 import { useParams } from 'react-router';
 import useChat from '../services/useChat';
@@ -20,6 +20,7 @@ const ChatSection = ({ className }) => {
   const [user] = useAuthState(auth);
   const [emojiPickerVisible, setEmojiPickerVisible] = useState(false);
   const [messageInput, setMessageInput] = useState('');
+  const emptyDivRef = useRef(null);
 
   const onEmojiSelect = (_e, emojiObj) => {
     const newInput = `${messageInput}${emojiObj.emoji}`;
@@ -27,7 +28,9 @@ const ChatSection = ({ className }) => {
     setEmojiPickerVisible(false);
   };
 
-  const deliverMessage = async () => {
+  const deliverMessage = async (e) => {
+    e.preventDefault();
+
     const msg = {
       text: messageInput,
       user_img: user?.photoURL,
@@ -37,6 +40,7 @@ const ChatSection = ({ className }) => {
     try {
       await sendMessage(id, msg);
       setMessageInput('');
+      emptyDivRef.current.scrollIntoView({ behavior: 'smooth' });
     } catch (e) {
       toast.error('something went wrong');
     }
@@ -77,40 +81,46 @@ const ChatSection = ({ className }) => {
             userImage={message.user_img}
           />
         ))}
+        <div ref={emptyDivRef}></div>
       </section>
       <section className="mb-4 bottom-4 left-0 right-0 px-3 mt-auto">
-        <div className="w-full px-4 py-2 bg-gray-800 rounded-md flex gap-3 items-center shadow-md">
-          <input
-            type="text"
-            value={messageInput || ''}
-            onChange={(e) => setMessageInput(e.target.value)}
-            placeholder="Ask Anything..."
-            className="bg-transparent outline-none flex-1 text-gray-400"
-          />
-          <div>
-            {emojiPickerVisible && (
-              <EmojiPicker
-                pickerStyle={{
-                  position: 'absolute',
-                  right: '30px',
-                  bottom: '60px',
-                  boxShadow: 'none',
-                  zIndex: '100',
-                }}
-                onEmojiClick={onEmojiSelect}
-              />
-            )}
-            <EmojiHappyIcon
-              className="h-5 w-5 cursor-pointer hover:text-gray-300"
-              onClick={() => setEmojiPickerVisible((s) => !s)}
-            />
-          </div>
-          <button
-            className="hover:bg-gray-700 transition-all px-2 py-1 rounded-md"
-            onClick={() => deliverMessage()}
+        <div className="">
+          <form
+            onSubmit={deliverMessage}
+            className="w-full px-4 py-2 bg-gray-800 rounded-md flex gap-3 items-center shadow-md"
           >
-            <PaperAirplaneIcon className="h-5 w-5 rotate-90" />
-          </button>
+            <input
+              type="text"
+              value={messageInput || ''}
+              onChange={(e) => setMessageInput(e.target.value)}
+              placeholder="Ask Anything..."
+              className="bg-transparent outline-none flex-1 text-gray-400"
+            />
+            <div>
+              {emojiPickerVisible && (
+                <EmojiPicker
+                  pickerStyle={{
+                    position: 'absolute',
+                    right: '30px',
+                    bottom: '60px',
+                    boxShadow: 'none',
+                    zIndex: '100',
+                  }}
+                  onEmojiClick={onEmojiSelect}
+                />
+              )}
+              <EmojiHappyIcon
+                className="h-5 w-5 cursor-pointer hover:text-gray-300"
+                onClick={() => setEmojiPickerVisible((s) => !s)}
+              />
+            </div>
+            <button
+              type="submit"
+              className="hover:bg-gray-700 transition-all px-2 py-1 rounded-md"
+            >
+              <PaperAirplaneIcon className="h-5 w-5 rotate-90" />
+            </button>
+          </form>
         </div>
       </section>
     </div>

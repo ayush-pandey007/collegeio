@@ -1,5 +1,5 @@
 import { signOut } from '@firebase/auth';
-import { auth } from '../Firebase';
+import { auth } from '../firebase';
 import toast from 'react-hot-toast';
 
 const useLogout = () => {
